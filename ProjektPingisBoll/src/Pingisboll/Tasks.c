@@ -1,8 +1,6 @@
 /*
-* codeLock.c
-*
-* Created: 2015-12-17 19:20:56
-*  Author: William Ouda, Jack Mao
+* 
+*  Author: William Ouda, Zeid Bekli
 */
 #include <asf.h>
 #include <FreeRTOS.h>
@@ -32,18 +30,19 @@ double Ti_temp=0;
 double Td_temp=0;
 double dT_temp=0;
 
+int linjer=0;
+
+
+double Summa=0;
+
 void task_codeLock(void *pvParameters)
 {
-	/*
-	int Utsignal =0;
-	int Felvarde =0;
-	int cm_value =0;
-	*/
+
 	
 	portTickType xLastWakeTime; //Last time the task was active.
 	const portTickType xTimeIncrement = 100; //100 ms
 	xLastWakeTime = xTaskGetTickCount();
-	int linjer;
+	
 	int k=0;
 	float Borvarde;
 	float test;
@@ -61,32 +60,16 @@ void task_codeLock(void *pvParameters)
 	pinMode(inputA0,INPUT);
 	
 	
-	int SignalAvIr =0; //Fylls med mätningar av IR-sensor
-	//int Felvarde =0; //Felvärde
-	 //Styrsignal till fläkt
+	int SignalAvIr =0; 
 	
-	    //int BB = 30;  //Börvärdet cm
-		//double Kp =1.2; //Förstärkning
-		//double Ti=1.8;
-		//double Td=0.49;
-		//double dT = 0.1;
-		
-	double Summa=0;
 	double differans=0;
 	double P=0;
 	double I=0;
 	double D=0;
 	int lastFelvarde = 0;
 	
-	
-	
-	/*
-			float Kp =0.57; //Förstärkning
-			float Ti=1.8;
-			float Td=0.49;
-			float dT = 0.1;
 
-		*/
+		
 		
 	while(1){
 			
@@ -94,20 +77,22 @@ void task_codeLock(void *pvParameters)
 			setPin(pin12,1);	
 			
 		
-		Borvarde=valueInCm(BB);
-		linjer=linearization();
-		returnCM(linjer);
+
+		linjer=linearization(BB);
+		
 		SignalAvIr=linjer;
 
-		Felvarde=Borvarde-SignalAvIr;
+		Felvarde=SignalAvIr-BB;
+		
 		differans=(Felvarde-lastFelvarde);
 		Summa = Summa + Felvarde;
-		P=Felvarde*-1;
+		P=(Felvarde);
 		I=(dT/Ti)*Summa;
 		D=(Td/dT)*differans;
-		Summa = max(min(Summa, Limitation), -Limitation);
+		
 		
 		Utsignal=Kp*(P+I+D);
+		//Utsignal=Kp*P;
 		
 	
 		lastFelvarde=Felvarde;
@@ -115,15 +100,16 @@ void task_codeLock(void *pvParameters)
 		{
 			Utsignal=0;
 		}
-		if (Utsignal>999)
+		if (Utsignal>100)
 		{
-			Utsignal=999;
+			Utsignal=100;
 		}
 		//-----------------------------------------
 		// testa sätt in max(min på utsignal så den inte går för högt upp bollen.
 		//------------------------------------
+		
 		setPWM(Utsignal);
-			
+
 		
 		vTaskDelayUntil(&xLastWakeTime, xTimeIncrement); //Wait for the next cycle the task will be active.
 	}
@@ -160,7 +146,7 @@ void task_Led2(void *pvParameters)
 		}
 		if (returned == '3')
 		{
-			printf("%d \n", cm_value);
+			printf("%d \n", linjer);
 			
 		}
 		
@@ -176,33 +162,7 @@ void task_Led2(void *pvParameters)
 			{
 				setPin(pin3,HIGH);
 			}
-			if (Kp==58)
-			{
-				setPin(pin4,HIGH);
-			}
-			if (Ti==59)
-			{
-				setPin(pin5,HIGH);
-			}
-			if (Td==60)
-			{
-				setPin(pin6,HIGH);
-			}
-			if (dT==61)
-			{
-				setPin(pin10,HIGH);
-				
-			}
-			
-			else{
-				setPin(pin10,LOW);
-				setPin(pin6,LOW);
-				setPin(pin5,LOW);
-				setPin(pin3,LOW);
-				setPin(pin4,LOW);
-			}
-		*/
-		//	vTaskDelay(100);
+			*/
 	vTaskDelayUntil(&xLastWakeTime, xTimeIncrement);
 	}
 }

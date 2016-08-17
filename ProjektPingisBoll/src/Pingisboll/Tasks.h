@@ -1,8 +1,6 @@
 /*
- * codeLock.h
  *
- * Created: 2015-12-17 19:21:20
- *  Author: William Ouda, Jack Mao
+ *  Author: William Ouda, Zeid Bekli
  */ 
 
 
@@ -22,7 +20,7 @@ void setPIDvalues(uint8_t V_values, double Kp_values, double Ti_values, double T
 #define TASK_CODELOCK_STACK_PRIORITY    (2)
 void task_codeLock(void *pvParameters);
 void task_Led2(void *pvParameters);
-int linearization(void);
+int linearization(int bb);
 int valueInCm(int value);
 #define pinMode ioport_set_pin_dir
 #define OUTPUT IOPORT_DIR_OUTPUT

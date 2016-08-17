@@ -1,16 +1,16 @@
 function [] = Test_communikation(V,Kp,Ti,Td,dT)
-s = serial('COM22', 'BaudRate', 115200,'DataBits',8);
+s = serial('COM14', 'BaudRate', 115200,'DataBits',8);
 fopen(s);
 %pause(0.5);
 
 flushinput(s);
 
 
-N=100;
+N=150;
 
-V=30;
-Kp=72;
-Ti=141;
+V=40;
+Kp=23;
+Ti=142;
 Td=35;
 dT=10;
 Start=1;
@@ -40,13 +40,13 @@ flushinput(s);
 flushoutput(s);
 
 fwrite(s,'1')
-PWMvalue(k)=str2double(fscanf(s,'%c'));
+PWMvalue(k)=str2double(fscanf(s,'%c'))
 
 flushinput(s);
 flushoutput(s);
 
 fwrite(s,'2')
-errorValue(k)=str2double(fscanf(s,'%c'));
+errorValue(k)=str2double(fscanf(s,'%c'))
 flushinput(s);
 flushoutput(s);
 
@@ -58,7 +58,7 @@ flushoutput(s);
 pause(0.2);
 
 plot(tid,PWMvalue,'k',tid,errorValue,'r-',tid,Distance,'g')
-axis([0,100,-1200,1200]);
+axis([0,100,-150,150]);
  xlabel('samples')
  ylabel('Utsignal')
  title('Pingis-Projekt')

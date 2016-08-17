@@ -1,8 +1,7 @@
 /*
  * adcFunctions.c
  *
- * Created: 2015-06-16 09:00:18
- *  Author: William Ouda & Jack Mao
+ *  Author: William Ouda & Zeid Bekli
  */ 
 
 #include <inttypes.h>

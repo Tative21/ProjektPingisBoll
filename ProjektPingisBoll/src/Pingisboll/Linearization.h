@@ -11,7 +11,7 @@
 
 
 
-int linearization(void);
+int linearization(int bb);
 int valueInCm(int value);
 int returnCM(int value);
 void receive_Values(void);

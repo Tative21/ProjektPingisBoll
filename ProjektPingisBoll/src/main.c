@@ -1,5 +1,5 @@
 /**
- * Author: William Ouda, Jack Mao
+ * Author: William Ouda, Zeid Bekli
  *
  *
  *\file

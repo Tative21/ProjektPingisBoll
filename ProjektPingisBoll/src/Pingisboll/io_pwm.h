@@ -14,7 +14,7 @@
 /* Frequency of PWM signal */
 #define PWM_FREQUENCY		1000
 /* Resolution: 1000 steps between 0-100% duty cycle */
-#define PWM_RESOLUTION		999
+#define PWM_RESOLUTION		100
 /* PWM channel */
 #define PWM_CHANNEL			PWM_CHANNEL_0
 /* Parallel Input/Output Controller for pin using PWM output */
